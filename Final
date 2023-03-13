@@ -1,0 +1,113 @@
+# SMOOTHIE GENIE
+# program that allows user to build smoothie
+
+from tkinter import *
+from PIL import ImageTk, Image
+
+# first window
+root = Tk()
+root.title("Smoothie Genie")  # title
+
+
+title = Label(root, text="Welcome to Smoothie Genie!", font=60)  # displays title
+title.pack() # places title on screen
+
+image = ImageTk.PhotoImage(Image.open("shake2.jpg"))  # uploads image
+imageLabel = Label(root, image=image)  # displays image
+imageLabel.pack(side=RIGHT) # places image on screen
+
+# allows user to select size
+s = Label(root, text="1.) Select your size:", font=10)  # instructs a user to select size
+s.pack()  # places question on screen
+sizeSelected = IntVar()
+
+sizeOptions = ['Small', 'Medium', 'Large']  # size options user has
+sizeButtons = []
+
+for size in range(len(sizeOptions)):
+    sizeButton = Radiobutton(root, text=sizeOptions[size], variable=sizeSelected, value=size, font=5)
+    sizeButton.pack()
+    sizeButtons.append(sizeButton)
+sizeSelected.set(1)
+
+gap1 = Label(root, text="")  # space between questions
+gap1.pack()
+
+# allows user to select liquid base
+
+a = Label(root, text="2.) Select your liquid base:", font=20)  # label instructs user to select liquid
+a.pack()  # places label on screen
+liquidSelected = IntVar()
+
+baseLiquid = ['Milk', 'Coconut Water', 'Tea', 'Non-Dairy Milk']  # liquid options user has
+baseLiquidbuttons = []
+
+for liquid in range(len(baseLiquid)):
+    liquidButton = Radiobutton(root, variable=liquidSelected, value=liquid, text=baseLiquid[liquid], font=10)
+    liquidButton.pack()
+    baseLiquidbuttons.append(liquidButton)
+
+liquidSelected.set(1)  # preselected option
+
+gap2 = Label(root, text="")  # space between questions
+gap2.pack()
+
+# fruit options
+b = Label(root, text="3.) Select your fruit:", font=30)  # allows user to pick fruits
+b.pack()  # displays label on screen
+
+
+# liquid based check options
+fruitSelected = IntVar()
+fruitVariables = [IntVar(), IntVar(), IntVar(), IntVar()]
+fruitOptions = ['Strawberries', 'Pineapples', 'Mango', 'Peaches']  # fruit options to select from
+fruitOptionsbutton = []
+for fruit in range(len(fruitOptions)):
+    fruitButton = Checkbutton(root, variable=fruitVariables[fruit], text=fruitOptions[fruit], font=10)
+    fruitButton.pack()
+    fruitOptionsbutton.append(fruitButton)
+
+
+gap3 = Label(root, text="")  # space between question
+gap3.pack()
+
+# Allows user to select vegetables
+c = Label(root, text="4.) Select your Veggies:", font=30)  # label for selecting veggies
+c.pack()
+
+
+veggieSelected = IntVar()
+veggieVariables = [IntVar(), IntVar(), IntVar(), IntVar()]
+veggieOptions = ['Celery', 'Cucumber', 'Spinach', 'Avocado']  # veggie options
+veggieButton = []
+for veggie in range(len(veggieOptions)):
+    veggieButton = Checkbutton(root, variable=veggieVariables[veggie], text=veggieOptions[veggie], font=10)
+    veggieButton.pack()
+    veggieOptions.append(veggieButton)
+
+
+def open():  # opens second window
+    orderText = "Your order is: \n"
+    orderText += "A: " + sizeOptions[sizeSelected.get()]+"\n "  # pulls selected size
+    orderText += baseLiquid[liquidSelected.get()]+"\n"  # pulls selected liquid
+    for index in range(len(fruitOptions)):  # for loop that pulls selected veggies and fruits
+        if fruitVariables[index].get():
+            orderText += fruitOptions[index] + "\n"
+        if veggieVariables[index].get():
+            orderText += veggieOptions[index] + "\n"
+    w2 = Toplevel() # second window name
+    b = Label(w2, text=orderText)
+    b.pack()
+    exitButton = Button(w2, text="Click here to submit and exit", command=root.quit)  # terminates session
+    exitButton.pack()
+
+
+nextButton = Button(root, text="Next", command=open, font=10)  # takes you to the next screen
+nextButton.pack()
+
+# exit buttonke
+exitButton = Button(root, text="Click here to exit", command=root.quit)  # exits program
+exitButton.pack()
+
+
+root.mainloop()
